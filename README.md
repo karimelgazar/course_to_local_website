@@ -34,8 +34,8 @@
  
 - `< (SHIFT+,)` : Decrease playback rate
 
-# 🌟 The Result 🤩
-### Please see this demo video
+## 🌟 The Result 🤩
+#### Please see this demo video
 
 [![](./preview/video.png)](https://youtu.be/Z-xmEpE75V0)
 
