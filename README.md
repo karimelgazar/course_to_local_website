@@ -45,7 +45,7 @@
 ![](./preview/prev.png)
 
 
-## 🌟 Problesm & Solutions
+## 🌟 Problems & Solutions
 
 ⁉ `the shortcuts doesn't work?`
 
