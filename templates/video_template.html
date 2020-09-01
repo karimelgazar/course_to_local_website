@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>$ITEM_NAME$</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/plyr.css">
+  <link rel="stylesheet" href="../assets/css/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" type="image/png" href="../assets/img/icon.png" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>$FOLDER_TITLE$</h3>
+  </div>
+
+  <ul class="sidebar-list list-unstyled CTAs">
+    <li>
+      <a href="../index.html" class="article">Back to Home</a>
+    </li>
+  </ul>
+
+  <ul class="sidebar-list list-unstyled components">
+    $SIDEBAR_ITEMS$
+  </ul>
+
+  <ul class="sidebar-list list-unstyled CTAs">
+    <li>
+      <a href="../index.html" class="article">Back to Home</a>
+    </li>
+  </ul>
+</nav>
+
+    <div id="content">
+      <header class="container-fluild header">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="align-items-middle">
+                <button type="button" id="sidebarCollapse" class="btn btn-toggle-sidebar">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </button>
+
+                <h1 style="display: inline-block">$ITEM_NAME$</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="ud-atom">
+  
+  <!-- you must keep this element because this element is used below in the script tag-->
+              <h3><p></p></h3>
+  $LESSON_CONTENT$
+</div>
+
+    </div>
+  </div>
+</main>
+
+    <!-- MY NEW DECORATION  -->
+    
+      <div class = "row" >
+        <div class = "col-12" >
+            <p class="text-center" style="margin-top:50px;">
+              $NEXT_ITEM$
+            </p>
+            <p class="text-center" style="margin-top:25px;">
+              $PREVIOUS_ITEM$
+            </p>
+            
+        </div>
+      </div>
+
+    </div>
+    <script src="../assets/js/jquery-3.3.1.min.js"></script>
+    <script src="../assets/js/plyr.polyfilled.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../assets/js/katex.min.js"></script>
+ 
+     <script>
+
+    // Initialize Plyr video players
+    const players = Array.from(document.querySelectorAll('video')).map(p => new Plyr(p));
+
+    // render math equations
+    let elMath = document.getElementsByClassName('mathquill');
+    for (let i = 0, len = elMath.length; i < len; i += 1) {
+      const el = elMath[i];
+
+      katex.render(el.textContent, el, {
+        throwOnError: false
+      });
+    }
+
+    // this hack will make sure Bootstrap tabs work when using Handlebars
+    if ($('#question-tabs').length && $('#user-answer-tabs').length) {
+      $("#question-tabs a.nav-link").on('click', function () {
+        $("#question-tab-contents .tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+      $("#user-answer-tabs a.nav-link").on('click', function () {
+        $("#user-answer-tab-contents .tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+    } else {
+      $("a.nav-link").on('click', function () {
+        $(".tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+    }
+
+    
+    // automatically hide side bar when the page load
+    $('#sidebar, #content').toggleClass('active');
+    $('.collapse.in').toggleClass('in');
+    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+     
+
+    // side bar events
+    $(document).ready(function () {
+      $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+      });
+
+      // hide side bar when (ctrl+b) is clicked 
+      $(document).keypress("b",function(e) {
+        if(e.ctrlKey){
+          $('#sidebar, #content').toggleClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        }
+        return false
+      });
+
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+
+      
+      // single key shortcut
+      $(document).bind('keypress', function(e){
+
+        if(e.which == 98){ // letter b -> [back] -> previous item 
+          $('a.btn.btn-warning').get(0).click();
+        }
+
+        if(e.which == 110){ // letter n -> [next] -> next item
+          $('a.btn.btn-success').get(0).click();
+        }
+
+        if(e.which == 104){ // letter h -> [home] -> course home screen
+          const link = $("#mCSB_1_container > ul:nth-child(2) > li > a").attr('href')
+          window.open(link, '_blank'); // in a new tab
+        }
+
+
+        if(e.which == 32){ // backspace -> pause and play the video
+          $("button.plyr__control.plyr__control--overlaid").click();
+        }
+
+        if(e.which == 99){ // c -> show or hide the captions
+          $("button.plyr__control.plyr__control--pressed.plyr__tab-focus").click();
+        }
+
+        if(e.which == 102){ // letter f -> enter video full screen mode 
+          // $($('div > div.plyr__controls > button:nth-child(7)').get(1)).click();
+	        $('div > div.plyr__controls > button:nth-child(7)').click();
+
+        }
+
+        if(e.which == 122){ // letter (z) -> reset playback speed to normal 
+          players[0].speed = 1.0;
+        }
+        
+        if(e.which == 62){ // letter (>) -> increase playback speed
+          players[0].speed += 0.25;
+        }
+        
+        if(e.which == 60){ // letter (<) -> decrease playback speed
+          players[0].speed -= 0.25;
+        }
+        
+      });
+
+
+      // scroll to first video on page loading
+      if ($('video').length) {
+        $('html,body').animate({ scrollTop: $('div.plyr').prev().offset().top});
+      }
+
+      // auto play first video: this may not work with chrome/safari due to autoplay policy
+      if (players && players.length > 0) {
+        players[0].play();
+      }
+
+      // scroll sidebar to current concept
+      
+    // # scrollbar = "\t\tconst currentInSideBar = $(\"ul.sidebar-list.components li a:contains(\'{}\')\")".format(
+    // #     html_file[:-5])
+
+    // # mCSB_1_container > ul.sidebar-list.list-unstyled.components > li:nth-child(32) > a
+      
+      const currentInSideBar = $("#mCSB_1_container > ul.sidebar-list.list-unstyled.components > li:nth-child($ITEM_INDEX$) > a")
+      // currentInSideBar.css( "text-decoration", "highlight" );
+      currentInSideBar.css( "background-color", "green" );
+      $("#sidebar").mCustomScrollbar('scrollTo', currentInSideBar);
+    });
+    </script>
+    </body>
+
+    </html>

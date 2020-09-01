@@ -1,0 +1,148 @@
+<!-- udacimak v1.2.1 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>$FOLDER_TITLE$</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/plyr.css">
+  <link rel="stylesheet" href="../assets/css/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="shortcut icon" type="image/png" href="../assets/img/icon.png" />
+</head>
+
+<body>
+  <div class="">
+
+    <div id="">
+      <header class="container-fluild header">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="align-items-middle">
+
+                <h1 style="">$FOLDER_TITLE$</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="container">
+        <div class="row">
+          <div class="col-12">
+            <ul>
+$SIDEBAR_ITEMS$
+
+</ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="row" style="align-content: center;">
+            <!-- <div class="col-12"> -->
+              <p class="text-center">
+                <a href="https://www.twitter.com/karimCodes" target="_blank">
+                  <img src="../assets/img/twitter.png" alt="HTML tutorial" style="width:42px;height:42px; margin-left: 200px;"></a>
+                
+              </p>
+              <p>
+                <a href="https://github.com/karimelgazar" target="_blank">
+                    <img src="../assets/img/github.png" alt="HTML tutorial" style="width:42px;height:42px; margin-left: 120px;"></a>
+
+              </p>  
+              <p class="text-center">
+                <a href="https://www.youtube.com/karimelgazar?sub_confirmation=1" target="_blank">
+                  <img src="../assets/img/youtube.png" alt="HTML tutorial" style="width:42px;height:42px; margin-left: 120px;"></a>
+                
+              </p>
+              <p class="text-center">
+                <a href="https://www.linkedin.com/in/karim-elgazar" target="_blank">
+                  <img src="../assets/img/linkedin.png" alt="HTML tutorial" style="width:42px;height:42px; margin-left: 120px;"></a>
+                
+              </p>
+              <p class="text-center">
+                <a href="https://www.facebook.com/karimCodes" target="_blank">
+                  <img src="../assets/img/facebook.png" alt="HTML tutorial" style="width:42px;height:42px; margin-left: 120px;"></a>
+                
+              </p>
+            </div>
+
+
+
+            <!-- </div> -->
+        </div>
+      </footer>
+    </div>
+  </div>
+
+
+  <script src="../assets/js/jquery-3.3.1.min.js"></script>
+  <script src="../assets/js/plyr.polyfilled.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="../assets/js/katex.min.js"></script>
+  <script>
+    // Initialize Plyr video players
+    const players = Array.from(document.querySelectorAll('video')).map(p => new Plyr(p));
+
+    // render math equations
+    let elMath = document.getElementsByClassName('mathquill');
+    for (let i = 0, len = elMath.length; i < len; i += 1) {
+      const el = elMath[i];
+
+      katex.render(el.textContent, el, {
+        throwOnError: false
+      });
+    }
+
+    // this hack will make sure Bootstrap tabs work when using Handlebars
+    if ($('#question-tabs').length && $('#user-answer-tabs').length) {
+      $("#question-tabs a.nav-link").on('click', function () {
+        $("#question-tab-contents .tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+      $("#user-answer-tabs a.nav-link").on('click', function () {
+        $("#user-answer-tab-contents .tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+    } else {
+      $("a.nav-link").on('click', function () {
+        $(".tab-pane").hide();
+        $($(this).attr("href")).show();
+      });
+    }
+
+    // side bar events
+    $(document).ready(function () {
+      $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+      });
+
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+    });
+
+
+    
+      // single key shortcut
+      $(document).bind('keypress', function(e){
+        if(e.which == 104){ // letter h -> [home] -> course home screen
+          const link = '../index.html'
+          window.open(link, '_blank'); // in a new tab
+        }
+      });
+
+  </script>
+</body>
+
+</html>
