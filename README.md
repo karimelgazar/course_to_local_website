@@ -10,7 +10,7 @@ The purpose of this project is to access your `videos`, `subtitles` and `html fi
 
 # 🌟 Index
 [**How To Use It**](#-how-to-use-it-) &nbsp;**|**&nbsp; [**Shortcuts**](#-shortcuts-) &nbsp;**|**&nbsp;
-[**The Result**](#the-result-) &nbsp;**|**&nbsp;
+[**The Result**](#-the-result-) &nbsp;**|**&nbsp;
 [**Problems & Solutions**](#-problems--solutions)
 
 &nbsp;
