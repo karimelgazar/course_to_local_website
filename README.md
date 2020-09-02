@@ -37,16 +37,18 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
 
 ## 🌟 Shortcuts 👨🏼‍💻
 
-- `b` : go to the previous video
+- `b` : Go to the previous video
 
 - `c` : toggle captions ON/OFF
  
 - `f` : Toggle full screen
  
-- `h` : go the course home page
+- `h` : Go the course home page
  
-- `n` : go to the next video
+- `n` : Go to the next video
  
+- `spacebar` : Play/Pause the video
+
 - `CTRL + b` : Display/Hide sidebar
  
 - `> (SHIFT+.)` : Increase playback rate
