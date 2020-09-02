@@ -1,8 +1,27 @@
 # 🌟 Please star 🌟 this repo if liked it. 
+After you download your `Udemy` course using this great tool [@udemy-dl](https://github.com/r0oth3x49/udemy-dl) you can
+use my tool to create a local website for your downloaded course
+
+This project was inspired from those great guys [@Udacimak](https://github.com/udacimak/udacimak)
+
+The purpose of this project is to access your `videos`, `subtitles` and `html files` all `in one place` so you can focus only on learning.
+
+
+
+# 🌟 Index
+[**How To Use It**](#-how-to-use-it-) &nbsp;**|**&nbsp; [**Shortcuts**](#-shortcuts-) &nbsp;**|**&nbsp;
+[**The Result**](#the-result-) &nbsp;**|**&nbsp;
+[**Problems & Solutions**](#-problems--solutions)
+
+&nbsp;
 
 ## 🌟 How To Use It 📓
+1. `[OPTIONAL]` set a wallpaper for the course hompage 
 
-0. You  should have python installed.
+The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tga", "jpeg"`
+
+![](./preview/wallpaper.png)  
+
 
 1. Open a terminal
 
@@ -10,7 +29,7 @@
 
         pip install webvtt-py
 
-3. Write this command in the terminal
+3. Excute this command
 
         python run.py "THE_COURSE_FOLDER_PATH"`
 
