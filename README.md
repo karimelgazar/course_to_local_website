@@ -66,10 +66,10 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
 
 ## 🌟 Problems & Solutions
 
-⁉ `the shortcuts doesn't work?`
+⁉ `why the shortcuts doesn't work?`
 
 Make sure that the selected language in your keyboard is `English`
 
-⁉ `the subtitle is not shown`
+⁉ `why the subtitle is not shown?`
 
 This problem beacuse of the `Chrome browser security issues` which doesn't allow subtitles to play and you can overcome it by applying [these 2 simple steps.](./chrome_subtitles.md) 
