@@ -1,5 +1,5 @@
 # First of all.
- You Must Close All Chrome Windows Before Appling The Steps Below
+ You Must Close All Chrome Windows Before Applying The Steps Below
 
 <br>
 
@@ -24,7 +24,7 @@ so the final result line is like that:
 
 1- make a shortcut from the original `chrome.exe`
 - You can find it by
-    1. open a new tab and enter this `chrome://version/`
+    1. open a new tab in google chrome and enter this `chrome://version/`
     2. the full path is at `Executable Path` 
 
 2- Right-click on the shortcut Add This To The `Target (section)` in the `Shortcut (tab)`
