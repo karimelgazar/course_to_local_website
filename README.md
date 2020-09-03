@@ -47,6 +47,8 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
  
 - `n` : Go to the next video
  
+- `z` : Reset playback rate to normal
+
 - `spacebar` : Play/Pause the video
 
 - `CTRL + b` : Display/Hide sidebar
