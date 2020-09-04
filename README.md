@@ -36,7 +36,12 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
 4. Enjoy. 😎
 
 ## 🌟 Shortcuts 👨🏼‍💻
+### 💁 Almost all shortcuts are the same as `Youtube`
 
+- `0..9` : Seek to specific point in the video (7 advances to 70% of duration)
+
+Note: use the top numeric keys `not the ones on the side`
+![](./preview/key.jpg)
 - `b` : Go to the previous video
 
 - `c` : toggle captions ON/OFF
@@ -51,11 +56,16 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
 
 - `spacebar` : Play/Pause the video
 
-- `CTRL + b` : Display/Hide sidebar
- 
+- `,` : Previous frame (while paused)
+
+- `.` : Next frame (while paused)
+
 - `> (SHIFT+.)` : Increase playback rate
  
 - `< (SHIFT+,)` : Decrease playback rate
+
+- `CTRL + b` : Display/Hide sidebar
+
 
 ## 🌟 The Result 🤩
 ### Please see this demo video

@@ -173,16 +173,21 @@
 
         if(e.which == 32){ // backspace -> pause and play the video
           $("button.plyr__control.plyr__control--overlaid").click();
+          // auto focus on the video progress bar so we can use the video shortcuts
+          document.getElementsByTagName("input")[0].focus();  
         }
 
         if(e.which == 99){ // c -> show or hide the captions
           $("div > div.plyr__controls > button:nth-child(5)").click();
+          // auto focus on the video progress bar so we can use the video shortcuts
+          document.getElementsByTagName("input")[0].focus();  
         }
 
         if(e.which == 102){ // letter f -> enter video full screen mode 
           // $($('div > div.plyr__controls > button:nth-child(7)').get(1)).click();
 	        $('div > div.plyr__controls > button:nth-child(7)').click();
-
+          // auto focus on the video progress bar so we can use the video shortcuts
+          document.getElementsByTagName("input")[0].focus();  
         }
 
         if(e.which == 122){ // letter (z) -> reset playback speed to normal 
@@ -196,31 +201,40 @@
         if(e.which == 60){ // letter (<) -> decrease playback speed
           players[0].speed -= 0.25;
         }
-        
+
+        if (players[0].paused){
+          if(e.which == 44){ // (,) -> rewind 6 frames
+            players[0].rewind(1/5);
+          }
+          
+          if(e.which == 46){ // (.) -> forward 6 frames
+            players[0].forward(1/5);
+          }
+        }
+              
       });
 
 
-      // scroll to first video on page loading
-      if ($('video').length) {
-        $('html,body').animate({ scrollTop: $('div.plyr').prev().offset().top});
-      }
 
+      window.addEventListener('load',function(){
+      })
       // auto play first video: this may not work with chrome/safari due to autoplay policy
       if (players && players.length > 0) {
         players[0].play();
       }
 
-      // scroll sidebar to current concept
-      
-    // # scrollbar = "\t\tconst currentInSideBar = $(\"ul.sidebar-list.components li a:contains(\'{}\')\")".format(
-    // #     html_file[:-5])
-
-    // # mCSB_1_container > ul.sidebar-list.list-unstyled.components > li:nth-child(32) > a
       
       const currentInSideBar = $("#mCSB_1_container > ul.sidebar-list.list-unstyled.components > li:nth-child($ITEM_INDEX$) > a")
       // currentInSideBar.css( "text-decoration", "highlight" );
       currentInSideBar.css( "background-color", "green" );
       $("#sidebar").mCustomScrollbar('scrollTo', currentInSideBar);
+
+      // scroll to first video on page loading
+      if ($('video').length) {
+        $('html,body').animate({ scrollTop: $('div.plyr').prev().offset().top});
+        // auto focus on the video progress bar so we can use the video shortcuts
+        document.getElementsByTagName("input")[0].focus();
+      }
     });
     </script>
     </body>
