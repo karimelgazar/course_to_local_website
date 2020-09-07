@@ -48,23 +48,6 @@ CONTENT_VIDEO = """
 FOLDER_TO_FILES = {}
 
 
-# ===================================================================
-#! get the course folder
-parser = argparse.ArgumentParser()
-help_1 = '[REQUIRED]: The Course Folder'
-
-parser.add_argument('course_folder',  help=help_1)
-
-COURSE_FOLDER = parser.parse_args().course_folder
-# ===================================================================
-
-#! ==============================================
-#! make a method to generate the html code by giving it the folder name and videos and subs
-#! then use the text returned from this method to replace it in the templeate html file
-#! in the calling function
-#! ==============================================
-
-
 def next_prev_items_code(temp, folder_indx, file_indx, list_files):
     global LIST_FOLDERS, FOLDER_TO_FILES
     next_item, prev_item = None, None
@@ -488,6 +471,19 @@ def craete_vtt_from(srt_file):
         return
 
 
+# ==============================================
+# ? THE SCRIPT STARTS EXCUTING FROM HERE
+# ==============================================
+#! get the course folder
+parser = argparse.ArgumentParser()
+help_1 = '[REQUIRED]: The Course Folder'
+
+parser.add_argument('course_folder',  help=help_1)
+
+COURSE_FOLDER = parser.parse_args().course_folder
+
+# ?==========================================================
+
 for root, folders, files in os.walk(COURSE_FOLDER):
     if root == COURSE_FOLDER:
         copy_assets_folder()
@@ -512,8 +508,6 @@ for root, folders, files in os.walk(COURSE_FOLDER):
             FOLDER_TO_FILES[root] = files
 
 
-# pprint(FOLDER_TO_FILES)
-# sys.exit()
 LIST_FOLDERS = list(FOLDER_TO_FILES.keys())
 LIST_FOLDERS.sort(key=lambda v: int(re.findall(r'\d+', v)[0]))
 
@@ -529,5 +523,4 @@ create_index_file(
 # ?==========================================================
 
 #! open the course "index.html" file when done
-
 webbrowser.open(os.path.join(COURSE_FOLDER, 'index.html'))
