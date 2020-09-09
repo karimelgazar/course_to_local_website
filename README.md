@@ -16,7 +16,7 @@ The purpose of this project is to access your `videos`, `subtitles` and `html fi
 &nbsp;
 
 ## 🌟 How To Use It 📓
-1. `[OPTIONAL]` set a wallpaper for the course hompage 
+0. `[OPTIONAL]` set a wallpaper for the course hompage 
 
 The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tga", "jpeg"`
 
@@ -33,7 +33,9 @@ The image can have `any name` and these extensions `".jpg", ".gif", ".png", ".tg
 
         python run.py "THE_COURSE_FOLDER_PATH"`
 
-4. Enjoy. 😎
+4. You access the course again by opening `index.html` file in your web browser (see the image above) 
+
+5. Enjoy. 😎
 
 ## 🌟 Shortcuts 👨🏼‍💻
 ### 💁 Almost all shortcuts are the same as `Youtube`
