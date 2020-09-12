@@ -48,6 +48,38 @@ CONTENT_VIDEO = """
 FOLDER_TO_FILES = {}
 
 
+def remove_bad_characters_in(file_name):
+    """
+    Do not use any of these common illegal characters/symbols becaus this will
+    cause errors while opening the html files in the browser so we will replace
+    all these bad charcters with undescore(_):
+
+    # pound                 % percent                   & ampersand
+
+    { left curly bracket    } right curly bracket       \ back slash
+
+    < left angle bracket    > right angle bracket       * asterisk
+
+    ? question mark         / forward slash             = equal sign
+
+    $ dollar sign           ! exclamation point         ' single quotes
+
+    " double quotes         : colon                     @ at sign
+
+    + plus sign             ` backtick                  | pipe
+
+
+
+    Args:
+        file_name (string)
+
+    Returns:
+        [string]: correct file name
+    """
+    return re.sub(
+        r"[*:/<>?\|!#@$+`=%&{}\\/\"]", "_", file_name)
+
+
 def next_prev_items_code(temp, folder_indx, file_indx, list_files):
     global LIST_FOLDERS, FOLDER_TO_FILES
     next_item, prev_item = None, None
@@ -87,6 +119,7 @@ def next_prev_items_code(temp, folder_indx, file_indx, list_files):
     #!======================================
     elif file_indx == 0:
         next_item = list_files[file_indx + 1]
+        next_item = os.path.splitext(next_item)[0] + '.html'
 
         #! this is the first unit
         if folder_indx == 0:
@@ -105,8 +138,8 @@ def next_prev_items_code(temp, folder_indx, file_indx, list_files):
                 print()
                 print(LINE_SEP)
                 print("FROM THIS IS FIRST item")
-                print(LIST_FOLDERS[folder_indx],
-                      list_files[file_indx], sep='/')
+                print(f"\"{LIST_FOLDERS[folder_indx]}\"",
+                      f"\"{list_files[file_indx]}\"", sep='/')
                 print(LINE_SEP)
                 print()
 
@@ -115,7 +148,7 @@ def next_prev_items_code(temp, folder_indx, file_indx, list_files):
     #!======================================
     elif file_indx == len(list_files) - 1:
         prev_item = list_files[file_indx - 1]
-
+        prev_item = os.path.splitext(prev_item)[0] + '.html'
         #! this is the last unit
         if folder_indx == len(LIST_FOLDERS) - 1:
             next_item = ""
@@ -144,16 +177,23 @@ def next_prev_items_code(temp, folder_indx, file_indx, list_files):
     #!===============================================
     else:
         next_item = list_files[file_indx + 1]
-        prev_item = list_files[file_indx - 1]
-
-    if prev_item != "":
-        prev_item = os.path.splitext(prev_item)[0] + '.html'
-    if next_item != "":
         next_item = os.path.splitext(next_item)[0] + '.html'
+        prev_item = list_files[file_indx - 1]
+        prev_item = os.path.splitext(prev_item)[0] + '.html'
 
     #!======================================
     #! PREPROCESSSING...
     #!======================================
+
+    if prev_item != "":
+        folder = os.path.dirname(prev_item)
+        file_name = os.path.basename(prev_item)
+        prev_item = file_name if folder == "" else (folder + '/' + file_name)
+
+    if next_item != "":
+        folder = os.path.dirname(next_item)
+        file_name = os.path.basename(next_item)
+        next_item = file_name if folder == "" else (folder + '/' + file_name)
 
     #!===================
     #! NEXT item
@@ -254,7 +294,7 @@ def check_if_script_tag_in(html_code):
     """
     this method extracts the url from the script tag of the thml file
     because this script tag ruins every thing and open the external link in the same tab
-    HERE'S THE TEMPLATE 
+    HERE'S THE TEMPLATE
       <script type="text/javascript">window.open("https://github.com/londonappbrewery/Flutter-Course-Resources", '_blank');</script>
     """
     if '</script>' in html_code:
@@ -350,7 +390,7 @@ def create_videos_html_files():
 
     # first dict
     for folder_indx, folder_path in enumerate(LIST_FOLDERS):
-        print(folder_path)
+        print(f"\"{folder_path}\"")
         print(LINE_SEP)
         # second dict
         folder = FOLDER_TO_FILES[folder_path]
@@ -385,7 +425,7 @@ def create_videos_html_files():
 
             name_html_file = os.path.splitext(file)[0] + '.html'
             video_html_file = os.path.join(folder_path, name_html_file)
-            print(video_html_file)
+            print(f"\"{video_html_file}\"")
             with open(video_html_file, 'w', encoding="UTF-8", errors='ignore') as html:
                 html.write(temp)
 
@@ -416,18 +456,30 @@ def extract_video_and_subs(root, files):
                 craete_vtt_from(srt_full_path)
                 subs.append(vtt_equivelant)
 
-        elif ext == '.html' and not f.endswith('_original.html') and f != 'index.html':
+        elif ext == '.html' and not f.endswith('original.html') and f != 'index.html':
             #! some concepts in the lsseon are html files
             #! also skip copies of the original files see method crop_html_content()
             htmls.append(f)
 
     #! add html lesson to the videos to form the full unit lessons
+    #! but remove ones that were created before and heve tha same name as the video
     for h in htmls:
-        first_two_words = ' '.join(h[:-4].split()[1:])
-        if any([' '.join(v[:-3].split()[1:]) == first_two_words for v in videos]):
-            continue
-        videos.append(h)
+        html_words = ' '.join(filter(str.isalpha, h[:-4]))
 
+        existed_before = []
+        for v in videos:
+            video_words = ' '.join(filter(str.isalpha, v[:-3]))
+
+            #! this is a new html file
+            existed_before.append(html_words == video_words)
+
+        if any(existed_before):
+            # delete all html files that same words as the video
+            # and we will create a new one later from scratch
+            os.remove(os.path.join(root, h))
+            continue
+
+        videos.append(h)
     # sort the videos so the result dict keys are sorted also and we can
     # sue them at the current order to fill the HTML file
     videos.sort(key=lambda v: int(re.findall(r'\d+', v)[0]))
@@ -471,6 +523,49 @@ def craete_vtt_from(srt_file):
         return
 
 
+def contains_bad_characters(file_name):
+    return any([c in "*:/<>?\|!#@$+`=%&{}\\/\"" for c in file_name])
+
+
+def clean_file_names_in(base_folder):
+    """
+    this method will rename all files inside the course folder that have
+    bad characters in theri names
+    """
+
+    for item in os.listdir(base_folder):
+        try:
+            os.rename(
+                os.path.join(base_folder, item),
+                os.path.join(base_folder, remove_bad_characters_in(item))
+            )
+        except:
+            continue
+
+    #! this was repeated because the above code will not continue after renaming the folders
+    for root, folders, files in os.walk(base_folder):
+
+        if files == []:
+            continue
+
+        for i in range(len(files)):
+            f = files[i]
+            clean_file_name = remove_bad_characters_in(f)
+            file_path_clean = os.path.join(root, clean_file_name)
+
+            if os.path.exists(file_path_clean) and contains_bad_characters(f):
+                os.remove(os.path.join(root, f))
+                continue
+
+            if f == clean_file_name:
+                continue
+
+            os.rename(
+                os.path.join(root, f),
+                file_path_clean
+            )
+
+
 # ==============================================
 # ? THE SCRIPT STARTS EXCUTING FROM HERE
 # ==============================================
@@ -482,24 +577,37 @@ parser.add_argument('course_folder',  help=help_1)
 
 COURSE_FOLDER = parser.parse_args().course_folder
 
+COURSE_FOLDER = os.path.abspath(COURSE_FOLDER)
 # ?==========================================================
+
+
+#! VERY IMPORTANT STEP
+clean_file_names_in(COURSE_FOLDER)
+
 
 for root, folders, files in os.walk(COURSE_FOLDER):
     if root == COURSE_FOLDER:
         copy_assets_folder()
         continue
 
+    print(f"\"{root}\"")
+    print("="*50, '\n')
+
     # ? VERY IMPORTAT
     #! choose only folders that starts with a number
     #! i.e. the folders downloaded from udemy not any other custom folders
     #! made by the user
-    if os.path.basename(root)[0].isdigit():
+    name_folder = os.path.basename(root)
+    if name_folder[0].isdigit() and not contains_bad_characters(name_folder):
+        if files == []:
+            continue
+
         files = extract_video_and_subs(root, files)
 
         #! there's no html or videos in this folder
         if files == None:
             print()
-            print(f' EMPTY FOLDER => {root}')
+            print(f' EMPTY FOLDER => \"{root}\"')
             print(LINE_SEP)
             print()
             continue
