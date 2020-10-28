@@ -429,6 +429,8 @@ def create_videos_html_files():
             with open(video_html_file, 'w', encoding="UTF-8", errors='ignore') as html:
                 html.write(temp)
 
+        print("\n")  # ! make a space between each folders files
+
 
 def extract_video_and_subs(root, files):
     videos, subs, htmls = [], [], []
@@ -590,9 +592,6 @@ for root, folders, files in os.walk(COURSE_FOLDER):
         copy_assets_folder()
         continue
 
-    print(f"\"{root}\"")
-    print("="*50, '\n')
-
     # ? VERY IMPORTAT
     #! choose only folders that starts with a number
     #! i.e. the folders downloaded from udemy not any other custom folders
@@ -616,8 +615,17 @@ for root, folders, files in os.walk(COURSE_FOLDER):
             FOLDER_TO_FILES[root] = files
 
 
+def extract_folder_number(full_abs_path):
+    #! this step is important because the "full_abs_path"
+    #! may contains numbers other than the original folder name
+    #! so we will perform calculations on folder_name only
+    folder_name = os.path.basename(full_abs_path)
+    str_num = re.findall(r'\d+', folder_name)[0]
+    return int(str_num)
+
+
 LIST_FOLDERS = list(FOLDER_TO_FILES.keys())
-LIST_FOLDERS.sort(key=lambda v: int(re.findall(r'\d+', v)[0]))
+LIST_FOLDERS.sort(key=extract_folder_number)
 
 create_videos_html_files()
 
